@@ -55,7 +55,7 @@ import com.jme3.shadow.BasicShadowRenderer;
 public class KartControlDev extends SimpleApplication implements ActionListener {
 
     private BulletAppState bulletAppState;
-    private VehicleControl player;
+    private KartControl player;
     private VehicleWheel fr, fl, br, bl;
     private Node node_fr, node_fl, node_br, node_bl;
     private float wheelRadius;
@@ -98,7 +98,10 @@ public class KartControlDev extends SimpleApplication implements ActionListener 
 
         setupKeys();
         //PhysicsTestHelper.createPhysicsTestWorld(rootNode, assetManager, bulletAppState.getPhysicsSpace());
-        PhysicsTestHelper.createPhysicsKartTrack(rootNode, assetManager, bulletAppState.getPhysicsSpace());
+        SceneBuider.createPhysicsKartTrack(rootNode, assetManager, bulletAppState.getPhysicsSpace());
+        //SceneBuider.createPhysicsKartControl(rootNode, assetManager, bulletAppState.getPhysicsSpace());
+        player = new KartControl();
+        player.createPhysicsKartControl(rootNode, assetManager, bulletAppState.getPhysicsSpace());
         //setupFloor();
         //buildPlayer();
 
@@ -196,14 +199,16 @@ public class KartControlDev extends SimpleApplication implements ActionListener 
             } else {
                 steeringValue += -.125f;
             }
-            player.steer(steeringValue);
+            player.steering(steeringValue);
+            //player.steer(steeringValue);
         } else if (binding.equals("Rights")) {
             if (value) {
                 steeringValue += -.125f;
             } else {
                 steeringValue += .125f;
             }
-            player.steer(steeringValue);
+            player.steering(steeringValue);
+            //player.steer(steeringValue);
         } //note that our fancy car actually goes backwards..
         else if (binding.equals("Ups")) {
             if (value) {
@@ -212,21 +217,23 @@ public class KartControlDev extends SimpleApplication implements ActionListener 
                 accelerationValue += 800;
             }
             player.accelerate(accelerationValue);
-            player.setCollisionShape(CollisionShapeFactory.createDynamicMeshShape((Node)carNode.getChild("Body")));
+            //player.accelerate(accelerationValue);
+            //player.setCollisionShape(CollisionShapeFactory.createDynamicMeshShape((Node)carNode.getChild("Body")));
         } else if (binding.equals("Downs")) {
             if (value) {
-                player.brake(40f);
+                //player.brake(40f);
             } else {
-                player.brake(0f);
+                //player.brake(0f);
             }
         } else if (binding.equals("Reset")) {
             if (value) {
                 System.out.println("Reset");
-                player.setPhysicsLocation(Vector3f.ZERO);
-                player.setPhysicsRotation(new Matrix3f());
-                player.setLinearVelocity(Vector3f.ZERO);
-                player.setAngularVelocity(Vector3f.ZERO);
-                player.resetSuspension();
+                //player.setPhysicsLocation(Vector3f.ZERO);
+                //player.setPhysicsRotation(new Matrix3f());
+                //player.setLinearVelocity(Vector3f.ZERO);
+                //player.setAngularVelocity(Vector3f.ZERO);
+                //player.resetSuspension();
+                player.reset();
             } else {
             }
         }
