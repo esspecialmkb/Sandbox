@@ -45,13 +45,13 @@ public class KartControl extends AbstractControl {
     private float accelerationValue = 0;
     //private Node carNode;
     private float forwardAngle = 90;
-    private Vector3f forward = Vector3f.UNIT_Z.negate();
+    public Vector3f forward = Vector3f.UNIT_Z.negate();
     
     private float mass = 100;
-    private float force = 20;
+    private float force = 60;
     private float speed = 0;
     private Vector3f velocity = Vector3f.ZERO;
-    private Node kart;
+    public Node kart;
     private Node body;
     private Ray spring;
     
@@ -83,33 +83,39 @@ public class KartControl extends AbstractControl {
         this.steeringValue = steer;
     }
     
+    public void calcMovement(float tpf){
+        float accel = (this.force * this.accelerationValue) / this.mass;
+        float friction = (-1 * this.speed * 0.8f) * tpf;
+        float steerAngle = this.forwardAngle + ((this.steeringValue * FastMath.RAD_TO_DEG)*tpf);
+        
+        //this.speed = this.speed * 0.9f;
+        this.speed = this.speed + ((accel) * tpf);
+        this.forwardAngle = steerAngle ;
+        
+        float vel_x = FastMath.cos((forwardAngle-90));// * FastMath.DEG_TO_RAD);// * this.speed;
+        float vel_z = FastMath.sin((forwardAngle-90));// * FastMath.DEG_TO_RAD);// * this.speed;
+        
+        System.out.println("ForwardAngle: " + forwardAngle);
+        System.out.println("Vel: " + vel_x + ", " + vel_z);
+        System.out.println("Speed: " + this.speed);
+        
+        this.forward.set(vel_x,0,vel_z);
+        //this.forward.normalizeLocal();
+    }
+    
     public void updatePhysics(float tpf){
-        //Calculate accel forces
-        float f_accel = this.force * this.accelerationValue;
-        //Calculate friction
-        float f_friction = this.speed * 0.8f;
         
+        this.calcMovement(tpf);
         //Calculate the positions of center, front, and rear nodes
-        Vector3f pos = kart.getLocalTranslation();
-        Vector3f front = pos.add(this.forward.mult(5));
-        Vector3f rear = pos.subtract(this.forward.mult(4));
+        Vector3f pos = kart.getWorldTranslation();
+        //Vector3f front = pos.add(this.forward.mult(5));
+        //Vector3f rear = pos.subtract(this.forward.mult(4));
         
-        //Move the nodes:
-        //The rear node always moves forward * speed
-        rear.addLocal(this.forward.mult(speed));
-        //The front node always moves (forwardAngle + steeringValue) * speed
-        Vector3f temp = new Vector3f(FastMath.cos(steeringValue + (forwardAngle * FastMath.DEG_TO_RAD)),0,FastMath.sin(steeringValue + (forwardAngle * FastMath.DEG_TO_RAD)));
-        front.addLocal(temp.mult(speed));
-        //After the front and rear nodes have been moved, calculate new center
-        temp = front.subtract(rear);
-        pos = front.subtract(temp.mult(0.5f));
-        kart.setLocalTranslation(pos);
-        //Cheap implemtation to update view
-        kart.lookAt(front, Vector3f.UNIT_Y);
-        float angles[] = new float[3];
-        kart.getLocalRotation().toAngles(angles);
-        forwardAngle = angles[1] * FastMath.RAD_TO_DEG;
-        forward.set(FastMath.cos(forwardAngle * FastMath.DEG_TO_RAD),0,FastMath.sin(forwardAngle * FastMath.DEG_TO_RAD));
+        //this.kart.move(this.forward.mult(this.speed));
+        
+        Quaternion rot = new Quaternion();
+        rot.lookAt(forward, Vector3f.UNIT_Y);
+        //this.kart.setLocalRotation(rot);
     }
 
     @Override
@@ -118,6 +124,9 @@ public class KartControl extends AbstractControl {
         //e.g. spatial.rotate(tpf,tpf,tpf);
         //kart.getControl(0);
         this.updatePhysics(tpf);
+        this.kart.move(forward.mult(this.speed / tpf));
+        Quaternion rot =new Quaternion().fromAngleAxis(steeringValue * FastMath.DEG_TO_RAD, Vector3f.UNIT_Y);
+        this.kart.rotate(0,this.steeringValue * tpf,0);
     }
     
     public void reset(){
@@ -125,7 +134,7 @@ public class KartControl extends AbstractControl {
         this.forwardAngle = 90;
         this.forward = Vector3f.UNIT_Z.negate();
         this.kart.setLocalTranslation(0, 0, 0);
-        this.kart.setLocalRotation(new Quaternion().fromAngleAxis(force, Vector3f.UNIT_Y));
+        this.kart.setLocalRotation(new Quaternion().fromAngleAxis(forwardAngle * FastMath.DEG_TO_RAD, Vector3f.UNIT_Y));
     }
     
     @Override
