@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Upgraded cubes assets - added fence and stair blocks
  */
 package com.cubes.test;
 
@@ -42,11 +41,13 @@ public class CubesAssets{
                 switch(face){
                     case Top:
                         return 0;
-
                     case Bottom:
                         return 2;
                 }
                 return 1;
+            }
+            if(face == Face.Top){
+                return 0;
             }
             return 2;
         }
@@ -87,7 +88,7 @@ public class CubesAssets{
             return 0;
     }};
     public static Block BLOCK_GLASS = new Block(6,new BlockSkin(new BlockSkin_TextureLocation(1, 3), true));
-    public static Block BLOCK_STONE = new Block(7,new BlockSkin(new BlockSkin_TextureLocation(0, 1), false));
+    public static Block BLOCK_STONE = new Block(7,new BlockSkin(new BlockSkin_TextureLocation(1, 0), false));
     public static Block BLOCK_STONE_PILLAR = new Block(8,new BlockSkin(new BlockSkin_TextureLocation(0, 1), false)){{
             setShapes(new BlockShape_Cube(), new BlockShape_Pyramid());
         }
@@ -150,6 +151,126 @@ public class CubesAssets{
     public static Block EVENT_BLOCK = new Block(22,SKINS_EVENT);
     public static Block BLOCK_BEDROCK = new Block(23,new BlockSkin(new BlockSkin_TextureLocation(1, 1), false));
     
+    public static Block BLOCK_LEAF = new Block(24,new BlockSkin(new BlockSkin_TextureLocation(4, 3), true));
+    
+    public static Block BLOCK_DIRT = new Block(25,new BlockSkin(new BlockSkin_TextureLocation(2, 0), false));
+    public static Block WOOL_GREY = new Block(26,new BlockSkin(new BlockSkin_TextureLocation(2, 7), false));
+    public static Block WOOL_PINK = new Block(27,new BlockSkin(new BlockSkin_TextureLocation(2, 8), false));
+    public static Block WOOL_LIGHT_GREEN = new Block(28,new BlockSkin(new BlockSkin_TextureLocation(2, 9), false));
+    public static Block WOOL_YELLOW = new Block(29,new BlockSkin(new BlockSkin_TextureLocation(2, 10), false));
+    public static Block WOOL_LIGHT_BLUE = new Block(30,new BlockSkin(new BlockSkin_TextureLocation(2, 11), false));
+    public static Block WOOL_LIGHT_PURPLE = new Block(31,new BlockSkin(new BlockSkin_TextureLocation(2, 12), false));
+    public static Block WOOL_ORANGE = new Block(32,new BlockSkin(new BlockSkin_TextureLocation(2, 13), false));
+    //
+    public static Block BLOCK_PLANK_A = new Block(33,new BlockSkin(new BlockSkin_TextureLocation(4, 0), false));
+    public static Block BLOCK_PLANK_B = new Block(34,new BlockSkin(new BlockSkin_TextureLocation(6, 12), false));
+    public static Block BLOCK_PLANK_C = new Block(35,new BlockSkin(new BlockSkin_TextureLocation(6, 13), false));
+    
+    public static Block BLOCK_COBBLE_A = new Block(36,new BlockSkin(new BlockSkin_TextureLocation(0, 1), false));
+    public static Block BLOCK_MOSSLEAF = new Block(37,new BlockSkin(new BlockSkin_TextureLocation(4, 3), false));
+    public static Block BLOCK_COBBLE_C = new Block(38,new BlockSkin(new BlockSkin_TextureLocation(6, 0), false));
+    public static Block BLOCK_COBBLE_D = new Block(39,new BlockSkin(new BlockSkin_TextureLocation(14, 3), false));
+    public static Block BLOCK_COBBLE_MOSSY = new Block(39,new BlockSkin(new BlockSkin_TextureLocation(4, 2), false));
+    
+    /**
+     *      New fence prototype 
+     */
+    public static Block BLOCK_FENCE = new Block(new BlockSkin(new BlockSkin_TextureLocation(4,1),false)){{
+            setShapes(
+                //Stand-alone block (-0.2 in second float array skips the generation of secondary cubiod shape)
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{-0.2f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f}),
+                //Block connected to single block
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.0f, 0.5f}),
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.5f, 0.0f, 0.0625f, 0.0625f}),
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.5f, 0.0f}),
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0f, 0.5f, 0.125f, 0.0625f}),
+                //Block connected to two in-line blocks
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.5f, 0.5f}),
+                new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.5f, 0.5f, 0.0625f, 0.0625f}),
+                //Block connected to two blocks (in corner)
+                new BlockShape_DevCuboid2(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.5f, 0.0f},new float[]{0.2f, 0.2f, 0.0f, 0.5f, 0.0625f, 0.0625f}),
+                new BlockShape_DevCuboid2(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.5f, 0.0f},new float[]{0.2f, 0.2f, 0.5f, 0.0f, 0.0625f, 0.0625f}),
+                new BlockShape_DevCuboid2(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.0f, 0.5f},new float[]{0.2f, 0.2f, 0.5f, 0.0f, 0.0625f, 0.0625f}),
+                new BlockShape_DevCuboid2(new float[]{0.5f, 0.5f, 0.125f, 0.125f, 0.125f, 0.125f},new float[]{0.2f, 0.2f, 0.0625f, 0.0625f, 0.0f, 0.5f},new float[]{0.2f, 0.2f, 0.0f, 0.5f, 0.0625f, 0.0625f})
+            );
+    }
+
+        @Override
+        protected int getShapeIndex(BlockChunkControl chunk, Vector3Int location){
+            //return 0;
+            boolean neighbor[] = {false,false,false,false,false,false};
+            
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Top) == BLOCK_FENCE){
+                neighbor[0] = true;
+            }
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Bottom) == BLOCK_FENCE){
+                neighbor[1] = true;
+            }
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Left) != null){
+                neighbor[2] = true;
+            }
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Right) != null){
+                neighbor[3] = true;
+            }
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Front) != null){
+                neighbor[4] = true;
+            }
+            if(chunk.getNeighborBlock_Global(location, Block.Face.Back) != null){
+                neighbor[5] = true;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == false)&&(neighbor[4] == false)&&(neighbor[5] == false) ){
+                return 0;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == false)&&(neighbor[4] == false)&&(neighbor[5] == true) ){
+                return 1;
+            }
+            if((neighbor[2] == true)&&(neighbor[3] == false)&&(neighbor[4] == false)&&(neighbor[5] == false) ){
+                return 2;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == false)&&(neighbor[4] == true)&&(neighbor[5] == false) ){
+                return 3;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == true)&&(neighbor[4] == false)&&(neighbor[5] == false) ){
+                return 4;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == false)&&(neighbor[4] == true)&&(neighbor[5] == true) ){
+                return 5;
+            }
+            if((neighbor[2] == true)&&(neighbor[3] == true)&&(neighbor[4] == false)&&(neighbor[5] == false) ){
+                return 6;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == true)&&(neighbor[4] == true)&&(neighbor[5] == false) ){
+                return 7;
+            }
+            if((neighbor[2] == true)&&(neighbor[3] == false)&&(neighbor[4] == true)&&(neighbor[5] == false) ){
+                return 8;
+            }
+            if((neighbor[2] == true)&&(neighbor[3] == false)&&(neighbor[4] == false)&&(neighbor[5] == true) ){
+                return 9;
+            }
+            if((neighbor[2] == false)&&(neighbor[3] == true)&&(neighbor[4] == false)&&(neighbor[5] == true) ){
+                return 10;
+            }
+            return 0;
+    }};
+    
+    public static Block DEV_STAIRS_N = new Block(SKINS_WOOD){{
+        setShapes(new BlockShape_DevCuboid(new float[]{0.0f, 0.5f, 0.5f, 0.5f, 0.0f, 0.5f},new float[]{0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.0f}));
+    }};
+    
+    public static Block DEV_STAIRS_S = new Block(SKINS_WOOD){{
+        setShapes(new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.5f, 0.5f, 0.0f, 0.5f},new float[]{0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.0f}));
+    }};
+    
+    public static Block DEV_STAIRS_E = new Block(SKINS_WOOD){{
+        setShapes(new BlockShape_DevCuboid(new float[]{0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f},new float[]{0.5f, 0.5f, 0.5f, 0.0f, 0.5f, 0.5f}));
+    }};
+    
+    public static Block DEV_STAIRS_W = new Block(SKINS_WOOD){{
+        setShapes(new BlockShape_DevCuboid(new float[]{0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f},new float[]{0.0f, 0.5f, 0.5f, 0.0f, 0.5f, 0.5f}));
+    }};
+    
+    
     public static int registerBlocks(){
         BlockManager.register(BLOCK_GRASS);             //1
         BlockManager.register(BLOCK_WOOD);              //2
@@ -174,7 +295,29 @@ public class CubesAssets{
         BlockManager.register(WAYPOINT_BLOCK);          //21
         BlockManager.register(EVENT_BLOCK);             //22
         BlockManager.register(BLOCK_BEDROCK);           //23
-        return 23;      //RETURN THE TOTAL NUMBER OF BLOCKS
+        BlockManager.register(BLOCK_LEAF);              //24   
+        BlockManager.register(BLOCK_DIRT);              //25
+        BlockManager.register(WOOL_GREY);               //26
+        BlockManager.register(WOOL_PINK);               //27
+        BlockManager.register(WOOL_LIGHT_GREEN);        //28   
+        BlockManager.register(WOOL_YELLOW);             //29
+        BlockManager.register(WOOL_LIGHT_BLUE);         //30
+        BlockManager.register(WOOL_LIGHT_PURPLE);       //31
+        BlockManager.register(WOOL_ORANGE);             //32
+        BlockManager.register(BLOCK_PLANK_A);           //33
+        BlockManager.register(BLOCK_PLANK_B);           //34
+        BlockManager.register(BLOCK_PLANK_C);           //35
+        BlockManager.register(BLOCK_COBBLE_A);          //36
+        BlockManager.register(BLOCK_MOSSLEAF);          //37
+        BlockManager.register(BLOCK_COBBLE_C);          //38
+        BlockManager.register(BLOCK_COBBLE_D);          //39
+        BlockManager.register(BLOCK_COBBLE_MOSSY);      //40
+        BlockManager.register(BLOCK_FENCE);             //41
+        BlockManager.register(DEV_STAIRS_N);            //42
+        BlockManager.register(DEV_STAIRS_S);            //43
+        BlockManager.register(DEV_STAIRS_E);            //44
+        BlockManager.register(DEV_STAIRS_W);            //45
+        return 45;      //RETURN THE TOTAL NUMBER OF BLOCKS
     }
     
     private static final Vector3f lightDirection = new Vector3f(-0.8f, -1, -0.8f).normalizeLocal();
@@ -210,8 +353,8 @@ public class CubesAssets{
         return filterPostProcessor;
     }
     
-    //Update the max Id EVERYTIME WE ADD NEW BLOCKS
-    public static int maxId() {return 23;}
+    //Update the max Id EVERYTIME WE ADD NEW BLOCKS!!!!!
+    public static int maxId() {return 40;}
     
     public static Block getBlockFromId(int id) {
         switch(id) {
@@ -261,8 +404,52 @@ public class CubesAssets{
                 return EVENT_BLOCK;             //22
             case 23:
                 return BLOCK_BEDROCK;           //23
-        }
-        return null;
+            case 24:
+                return BLOCK_LEAF;              //24
+            case 25:
+                return BLOCK_DIRT;              //25
+            case 26:
+                return WOOL_GREY;               //26
+            case 27:
+                return WOOL_PINK;               //27
+            case 28:
+                return WOOL_LIGHT_GREEN;        //28
+            case 29:
+                return WOOL_YELLOW;             //29
+            case 30:
+                return WOOL_LIGHT_BLUE;         //30
+            case 31:
+                return WOOL_LIGHT_PURPLE;       //31
+            case 32:
+                return WOOL_ORANGE;             //32
+            case 33:
+                return BLOCK_PLANK_A;           //33
+            case 34:
+                return BLOCK_PLANK_B;           //34
+            case 35: 
+                return BLOCK_PLANK_C;           //35
+            case 36: 
+                return BLOCK_COBBLE_A;          //36
+            case 37: 
+                return BLOCK_MOSSLEAF;          //37
+            case 38: 
+                return BLOCK_COBBLE_C;          //38
+            case 39: 
+                return BLOCK_COBBLE_D;          //39
+            case 40:
+                return BLOCK_COBBLE_MOSSY;      //40
+            case 41:
+                return BLOCK_FENCE;             //41
+            case 42:
+                return DEV_STAIRS_N;            //42
+            case 43:
+                return DEV_STAIRS_S;            //43
+            case 44:
+                return DEV_STAIRS_E;            //44
+            case 45:
+                return DEV_STAIRS_W;            //45
+            }
+            return BLOCK_BEDROCK;
     }
     
 }
